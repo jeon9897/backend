@@ -12,8 +12,8 @@ app.use(express.json()); //JSON 본문 파싱 미들웨어
 
 //1. mysql 연결 정보 셋팅
 const connection = mysql.createConnection({
-  host: 'svc.sel4.cloudtype.app',  // 또는 Cloudtype에서 할당된 정확한 호스트
-  port: 32633,                      // 실제 포트로 교체
+  host: '34.64.184.142',     // 또는 다른 두 개 중 하나
+  port: 3306,                      // 실제 포트로 교체
   user: 'root',
   password: '1234',
   database: 'kdt'
