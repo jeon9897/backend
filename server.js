@@ -12,10 +12,11 @@ app.use(express.json()); //JSON 본문 파싱 미들웨어
 
 //1. mysql 연결 정보 셋팅
 const connection = mysql.createConnection({
-  host:'front-backend-db',
-  user:'root',
-  password:'1234',
-  database:'kdt'
+  host: 'svc.sel4.cloudtype.app',  // 또는 Cloudtype에서 할당된 정확한 호스트
+  port: 32633,                      // 실제 포트로 교체
+  user: 'root',
+  password: '1234',
+  database: 'kdt'
 });
 
 //2. MYSQL DB접속시 오류가 나면 에러 출력하기, 성공하면 '성공'표시하기
