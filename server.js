@@ -1,6 +1,6 @@
 const express = require('express'); //express 기본 라우팅
 const app = express(); //express 기본 라우팅
-const port = 9070;
+const port = 3000;
 const cors = require('cors'); //교차출처공유 허용하기 위함
 const mysql = require('mysql');  //mysql변수 선언
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
@@ -15,7 +15,8 @@ const connection = mysql.createConnection({
   host:'34.64.184.142',
   user:'root',
   password:'1234',
-  database:'kdt'
+  database:'kdt',
+  port:3306,
 });
 
 //2. MYSQL DB접속시 오류가 나면 에러 출력하기, 성공하면 '성공'표시하기
