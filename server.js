@@ -1,6 +1,6 @@
 const express = require('express'); //express 기본 라우팅
 const app = express(); //express 기본 라우팅
-const port = 3000;
+const port = 9070;
 const cors = require('cors'); //교차출처공유 허용하기 위함
 const mysql = require('mysql');  //mysql변수 선언
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
@@ -12,7 +12,7 @@ app.use(express.json()); //JSON 본문 파싱 미들웨어
 
 //1. mysql 연결 정보 셋팅
 const connection = mysql.createConnection({
-  host:'34.64.184.142',
+  host:'http://34.64.184.142',
   user:'root',
   password:'1234',
   database:'kdt',
