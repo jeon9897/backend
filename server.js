@@ -37,7 +37,6 @@ app.post('/login', (req, res)=>{
     }
 
     const user = result[0];
-
     const isMatch = await bcrypt.compare(password, user.password);
 
     if(!isMatch){
