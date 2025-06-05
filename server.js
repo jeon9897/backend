@@ -396,5 +396,5 @@ app.post('/question', (req, res)=>{
 
 //서버실행
 app.listen(port, ()=>{
-  console.log('Listening...');
+  console.log(`Backend Server running at http://localhost:${port}`);
 });
