@@ -1,7 +1,7 @@
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
-const port = 9070; //통신포트 설정
+const port = 3306; //통신포트 설정
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
 const jwt = require('jsonwebtoken'); //토큰 생성을 위함
 const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
@@ -435,4 +435,5 @@ app.post('/login', (req, res)=>{
       //토큰발급
       res.json({token});
     });
+
 });
