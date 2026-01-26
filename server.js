@@ -15,7 +15,7 @@ app.use(cors());
 //3. mysql db정보 설정하기
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-  host:'database',
+  host:'mariadb',
   user:'root',
   password:'1234',
   database:'kdt'
@@ -437,6 +437,7 @@ app.post('/login', (req, res)=>{
     });
 
 });
+
 
 
 
