@@ -15,7 +15,7 @@ app.use(cors());
 //3. mysql db정보 설정하기
 const mysql = require('mysql2');
 const connection = mysql.createConnection({
-  host:'svc.sel3.cloudtype.app',
+  host:'database',
   user:'root',
   password:'1234',
   database:'kdt'
@@ -437,6 +437,7 @@ app.post('/login', (req, res)=>{
     });
 
 });
+
 
 
 
