@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(cors());
 
 //3. mysql db정보 설정하기
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host:'svc.sel3.cloudtype.app',
   user:'root',
@@ -437,4 +437,5 @@ app.post('/login', (req, res)=>{
     });
 
 });
+
 
