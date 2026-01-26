@@ -1,7 +1,7 @@
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
-const port = 31777; //통신포트 설정
+const port = 9070; //통신포트 설정
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
 const jwt = require('jsonwebtoken'); //토큰 생성을 위함
 const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(cors());
 
 //3. mysql db정보 설정하기
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const connection = mysql.createConnection({
   host:'database',
   user:'root',
@@ -437,6 +437,7 @@ app.post('/login', (req, res)=>{
     });
 
 });
+
 
 
 
