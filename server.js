@@ -386,56 +386,7 @@ app.get('/question', (req, res)=>{
 
 
 
-//회원가입
-// join.js에서 넘겨받은 데이터를 가지고 회원가입
-app.post('/register', async(req, res)=>{
-  const {username, password} = req.body;
-  const hash = await bcrypt.hash(password, 10);//패스워드 hash암호화
 
-  connection.query(
-    'INSERT INTO users (username, password) values (?, ?)', [username, hash], (err)=>{
-      if(err){
-        if(err.code == 'ER_DUP_ENTRY'){
-          return res.status(400).json({error:'이미 존재하는 아이디 입니다.'});
-        }
-        return res.status(500).json({error:'회원가입 실패'});
-      }
-      res.json({success:true});
-    }
-  );
-});
-
-//로그인
-//로그인 폼에서 id, pw 넘겨받은 데이터를 가지고 조회하여 일치하면 토큰생성하고 로그인 처리하기
-app.post('/login', (req, res)=>{
-
-  //프론트에서 넘겨온 body태그안의 값을 변수에 저장
-  const {username, password} = req.body;
-
-  //쿼리문 작성하여 데이터가 일치하는지 조회를 한다.
-  connection.query('SELECT * FROM users Where username=?',[username], async(err, result)=>{ 
-      if(err||result.length===0){//일치하는 자료가 없는경우
-        return res.status(401).json({  //에러띄우기
-          error: '아이디 또는 비밀번호가 틀렸습니다.' 
-        });
-      }
-      const user = result[0]; //조회된 첫번째 사용자 데이터
-
-      //사용자가 입력한 pw, db에 있는 pw비교
-      const isMatch = await bcrypt.compare(password, user.password);
-      
-      if(!isMatch){
-        return res.status(401).json({error:'아이디 또는 비밀번호가 틀립니다.'})
-      }
-
-      //위 과정에서 id와 pw가 일치하면 토큰을 생성(1시간)
-      const token = jwt.sign({id:user.id, username:username},
-      SECRET_KEY, {expiresIn:'1h'});
-
-      //토큰발급
-      res.json({token});
-    });
-});
 
 //지니펫 로그인, 회원가입 백엔드 내용
 
@@ -521,3 +472,4 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
