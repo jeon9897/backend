@@ -406,23 +406,37 @@ app.get('/question', (req, res)=>{
 
 //회원가입
 // join.js에서 넘겨받은 데이터를 가지고 회원가입
-app.post('/register', async(req, res)=>{
-  const {username, password} = req.body;
-  const hash = await bcrypt.hash(password, 10);//패스워드 hash암호화
+app.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
 
-  //connection.query(
-  pool.query(
-    'INSERT INTO users (username, password) values (?, ?)', [username, hash], (err)=>{
-      if(err){
-        if(err.code == 'ER_DUP_ENTRY'){
-          return res.status(400).json({error:'이미 존재하는 아이디 입니다.'});
-        }
-        return res.status(500).json({error:'회원가입 실패'});
-      }
-      res.json({success:true});
+    if (!username || !password) {
+      return res.status(400).json({ error: '값 누락' });
     }
-  );
+
+    const hash = await bcrypt.hash(password, 10);
+
+    pool.query(
+      'INSERT INTO users (username, password) VALUES (?, ?)',
+      [username, hash],
+      (err) => {
+        if (err) {
+          if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ error: '이미 존재하는 아이디' });
+          }
+          console.error(err);
+          return res.status(500).json({ error: '회원가입 실패' });
+        }
+
+        res.json({ success: true });
+      }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '서버 오류' });
+  }
 });
+
 
 //로그인
 //로그인 폼에서 id, pw 넘겨받은 데이터를 가지고 조회하여 일치하면 토큰생성하고 로그인 처리하기
@@ -545,3 +559,4 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
