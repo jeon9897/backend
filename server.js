@@ -329,7 +329,8 @@ app.put('/fruits/fruitsupdate/:num',(req, res)=>{
   }
 
   //업데이트 쿼리문 실행하기
-  connection.query(
+  //connection.query(
+    pool.query(
     'UPDATE fruits SET name=?, price=?, color=?, country=? WHERE num=?',[name, price, color, country, num],(err, result)=>{
       if(err){
         console.log('수정 오류 : ', err);
@@ -352,7 +353,8 @@ app.put('/bookstore/bookstoreupdate/:code', (req, res)=>{
 }
 
   //검사가 통과되면 쿼리문 실행
-  connection.query(
+  //connection.query(
+  pool.query(
     `UPDATE book_store 
     SET name=?, area1=?, area2=?, area3=?, book_cnt=?, owner_nm=?, tel_num=? 
     WHERE code=?`,
@@ -419,7 +421,8 @@ app.post('/register', async (req, res) => {
     }
 
     const hash = await bcrypt.hash(password, 10);
-
+    
+    //connection.query(
     pool.query(
       'INSERT INTO users (username, password) VALUES (?, ?)',
       [username, hash],
@@ -563,6 +566,7 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
 
 
