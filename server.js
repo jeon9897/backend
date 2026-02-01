@@ -1,7 +1,7 @@
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
-const port = 9070; //통신포트 설정
+const port = process.env.PORT || 9070; //통신포트 설정
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
 const jwt = require('jsonwebtoken'); //토큰 생성을 위함
 const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
@@ -35,8 +35,8 @@ pool.connect((err)=>{
 });
 
 //4. npm run dev 백엔드 서버 실행시 콘솔모드에 내용 출력하기
-app.listen(port, ()=>{
-  console.log('Listening.....');
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
 
 //6. 방법 1. app.get통신을 통해 테스트 해보기
@@ -559,4 +559,5 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
