@@ -1,3 +1,6 @@
+//2. 다른 시스템간 통신을 임시 허용(교차출처공유)
+const cors = require('cors');
+
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
@@ -8,9 +11,6 @@ const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
 
 app.use(express.json()); //JSON 본문 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));
-
-//2. 다른 시스템간 통신을 임시 허용(교차출처공유)
-const cors = require('cors');
 
 //CORS preflight 전역 허용
 app.use(cors());
@@ -566,6 +566,7 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
 
 
