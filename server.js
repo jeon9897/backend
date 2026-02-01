@@ -11,10 +11,8 @@ const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
 
 //CORS preflight 전역 허용
 app.use(cors());
-app.options('*', cors());
 
 app.use(express.json()); //JSON 본문 파싱 미들웨어
-app.use(express.urlencoded({ extended: true }));
 
 //3. mysql db정보 설정하기
 const mysql = require('mysql');
@@ -566,6 +564,7 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
 
 
