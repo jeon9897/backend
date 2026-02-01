@@ -1,18 +1,16 @@
-//2. 다른 시스템간 통신을 임시 허용(교차출처공유)
-const cors = require('cors');
-
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
-const port = process.env.PORT || 9070; //통신포트 설정
+const port = 9070; //통신포트 설정
 const bcrypt = require('bcrypt'); //해시 암호화를 위함
 const jwt = require('jsonwebtoken'); //토큰 생성을 위함
 const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
 
-//CORS preflight 전역 허용
-app.use(cors());
-
 app.use(express.json()); //JSON 본문 파싱 미들웨어
+
+//2. 다른 시스템간 통신을 임시 허용(교차출처공유)
+const cors = require('cors');
+app.use(cors());
 
 //3. mysql db정보 설정하기
 const mysql = require('mysql');
@@ -37,8 +35,8 @@ pool.connect((err)=>{
 });
 
 //4. npm run dev 백엔드 서버 실행시 콘솔모드에 내용 출력하기
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(port, ()=>{
+  console.log('Listening.....');
 });
 
 //6. 방법 1. app.get통신을 통해 테스트 해보기
@@ -327,8 +325,7 @@ app.put('/fruits/fruitsupdate/:num',(req, res)=>{
   }
 
   //업데이트 쿼리문 실행하기
-  //connection.query(
-    pool.query(
+  connection.query(
     'UPDATE fruits SET name=?, price=?, color=?, country=? WHERE num=?',[name, price, color, country, num],(err, result)=>{
       if(err){
         console.log('수정 오류 : ', err);
@@ -351,8 +348,7 @@ app.put('/bookstore/bookstoreupdate/:code', (req, res)=>{
 }
 
   //검사가 통과되면 쿼리문 실행
-  //connection.query(
-  pool.query(
+  connection.query(
     `UPDATE book_store 
     SET name=?, area1=?, area2=?, area3=?, book_cnt=?, owner_nm=?, tel_num=? 
     WHERE code=?`,
@@ -419,8 +415,7 @@ app.post('/register', async (req, res) => {
     }
 
     const hash = await bcrypt.hash(password, 10);
-    
-    //connection.query(
+
     pool.query(
       'INSERT INTO users (username, password) VALUES (?, ?)',
       [username, hash],
@@ -564,12 +559,3 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
-
-
-
-
-
-
-
-
-
