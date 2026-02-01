@@ -1,3 +1,6 @@
+import cors from 'cors';
+import express from 'express';
+
 //1. 기본 express설정
 const express = require('express'); //express기본 라우팅
 const app = express(); //app변수에 담기
@@ -566,6 +569,7 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
 
 
