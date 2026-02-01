@@ -14,8 +14,8 @@ app.use(cors());
 
 //3. mysql db정보 설정하기
 const mysql = require('mysql');
-// const connection = mysql.createConnection({
-const pool = mysql.createPool({
+const connection = mysql.createConnection({
+//const pool = mysql.createPool({
   // host:'localhost',
   host:'database',
   user:'root',
@@ -25,8 +25,8 @@ const pool = mysql.createPool({
 });
 
 //5. DB접속시 에러가 나는 경우와 성공시 메세지 띄우기
-// connection.connect((err)=>{
-pool.connect((err)=>{
+connection.connect((err)=>{
+//pool.connect((err)=>{
   if(err){
     console.error('MySql 연결 실패 : ', err);
     return;
@@ -52,8 +52,8 @@ app.listen(port, ()=>{
 //--Get 조회하기 ------------------------------------
 //1. goods 데이터 조회를 위한 내용
 app.get('/goods', (req, res)=>{
-  //connection.query('SELECT * FROM goods', (err, results)=>{
-  pool.query('SELECT * FROM goods', (err, results)=>{
+  connection.query('SELECT * FROM goods', (err, results)=>{
+  //pool.query('SELECT * FROM goods', (err, results)=>{
     if(err){
       console.error('쿼리 오류', err);
       res.status(500).json({error:'DB쿼리 오류'});
@@ -66,8 +66,8 @@ app.get('/goods', (req, res)=>{
 
 //1. fruits db조회하기
 app.get('/fruits', (req, res)=>{
-  //connection.query("SELECT * FROM fruits ORDER BY fruits.num DESC", (err, results)=>{
-  pool.query("SELECT * FROM fruits ORDER BY fruits.num DESC", (err, results)=>{
+  connection.query("SELECT * FROM fruits ORDER BY fruits.num DESC", (err, results)=>{
+  //pool.query("SELECT * FROM fruits ORDER BY fruits.num DESC", (err, results)=>{
     if(err){
       console.log('쿼리문 오류 : ', err);
       res.status(500).json({error:'DB쿼리문 오류'});
@@ -80,8 +80,8 @@ app.get('/fruits', (req, res)=>{
 
 //1. BookStore db조회하기
 app.get('/bookstore', (req, res)=>{
-  //connection.query('SELECT * FROM book_store ORDER BY code DESC', (err, results)=>{
-  pool.query('SELECT * FROM book_store ORDER BY code DESC', (err, results)=>{
+  connection.query('SELECT * FROM book_store ORDER BY code DESC', (err, results)=>{
+  //pool.query('SELECT * FROM book_store ORDER BY code DESC', (err, results)=>{
     if(err){
       console.error('쿼리오류 : ', err);
       res.status(500).json({error:'DB쿼리 오류'});
@@ -103,8 +103,8 @@ app.post('/goods', (req, res)=>{
   }
 
   //insert쿼리문 작성하여 DB 입력이 되게 함.
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'INSERT INTO goods (g_name, g_cost) VALUES (?, ?)', [g_name, g_cost], (err, result) =>{
       if(err){ //입력 에러가 나면
         console.log('DB입력 실패 : ', err); //에러 출력
@@ -125,8 +125,8 @@ app.post('/fruits', (req, res)=>{
     return res.status(400).json({error:'필수 항목이 누락되었습니다.'});
   }
   //이상이 없다면(정상적일 경우) 쿼리문 작성하여 db입력한다.
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'INSERT INTO fruits (name, price, color, country) VALUES (?, ?, ?, ?)', [name, price, color, country],
     (err, result)=>{
       if(err){ //입력시 오류가 있으면
@@ -149,8 +149,8 @@ app.post('/bookstore', (req, res)=>{
   }
 
   //데이터 유효성 검사 통과되면 sql쿼리문으로 db에 입력을 해야
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'INSERT INTO book_store (name, area1, area2, area3, book_cnt, owner_nm, tel_num) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [name, area1, area2, area3, book_cnt, owner_nm, tel_num],
     (err, result)=>{
@@ -171,8 +171,8 @@ app.delete('/goods/:g_code', (req, res)=>{
   //넘겨받은 코드번호 저장
   const g_code = req.params.g_code;
   //삭제쿼리 작성
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'DELETE FROM goods WHERE g_code= ?',
     [g_code], 
     (err, result) =>{
@@ -191,8 +191,8 @@ app.delete('/fruits/:num', (req, res)=>{
   //넘겨받은 코드번호 저장
   const num = req.params.num;
   //삭제쿼리 작성
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'DELETE FROM fruits WHERE num= ?',
     [num], 
     (err, result) =>{
@@ -209,8 +209,8 @@ app.delete('/fruits/:num', (req, res)=>{
 //3. bookstore데이터 삭제
 app.delete('/bookstore/:code',(req, res)=>{
   const code = req.params.code;
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'DELETE FROM book_store WHERE code=?',
     [code],
     (err, result) =>{
@@ -229,8 +229,8 @@ app.delete('/bookstore/:code',(req, res)=>{
 app.get('/goods/:g_code', (req,res)=>{
   const g_code = req.params.g_code;
 
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'SELECT * FROM goods WHERE g_code = ?'
 , [g_code],(err, result)=>{
       if(err){
@@ -253,8 +253,8 @@ app.get('/fruits/:num',(req,res)=>{
   //프론트에서에서 넘겨준 파라미터값 저장
   const num = req.params.num;
   //num값으로 데이터 조회하여 결과값 저장
-  // connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'SELECT * FROM fruits WHERE num=?',
     [num], (err, result)=>{
       if(err){
@@ -275,8 +275,8 @@ app.get('/fruits/:num',(req,res)=>{
 app.get('/bookstore/bookstoreupdate/:code',(req, res)=>{
   const code = req.params.code;
 
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'SELECT * FROM book_store WHERE code = ?', [code],
     (err, results)=>{
       if(err){
@@ -300,8 +300,8 @@ app.put('/goods/goodsupdate/:g_code', (req, res)=>{
     const {g_name, g_cost} = req.body; //프론트엔드에서 넘겨받은 값
 
     //update쿼리문으로 데이터 수정하기
-    //connection.query(
-    pool.query(
+    connection.query(
+    //pool.query(
       'UPDATE goods SET g_name = ?, g_cost=? where g_code= ?',[g_name, g_cost, g_code],
       (err, result)=>{
         if(err){
@@ -374,8 +374,8 @@ app.post('/api/question',(req,res)=>{
   }
 
   //이상이 없다면 (데이터를 모두 받았다면) 쿼리문 실행하여 db입력
-  //connection.query(
-  pool.query(
+  connection.query(
+  //pool.query(
     'INSERT INTO question(name, phone, email, content) VALUES (?, ?, ?, ?)', [name, phone, email, content],
     (err, result)=>{
       if(err){ //db입력시 에러가 있다면
@@ -390,8 +390,8 @@ app.post('/api/question',(req,res)=>{
 
 //question 조회하기
 app.get('/question', (req, res)=>{
-  //connection.query('SELECT * FROM question ORDER BY question.id DESC', (err, results)=>{
-  pool.query('SELECT * FROM question ORDER BY question.id DESC', (err, results)=>{
+  connection.query('SELECT * FROM question ORDER BY question.id DESC', (err, results)=>{
+  //pool.query('SELECT * FROM question ORDER BY question.id DESC', (err, results)=>{
     if(err){
       console.error('쿼리 오류', err);
       res.status(500).json({error:'DB쿼리 오류'});
@@ -416,7 +416,7 @@ app.post('/register', async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-    pool.query(
+    connection.query(
       'INSERT INTO users (username, password) VALUES (?, ?)',
       [username, hash],
       (err) => {
@@ -446,8 +446,8 @@ app.post('/login', (req, res)=>{
   const {username, password} = req.body;
 
   //쿼리문 작성하여 데이터가 일치하는지 조회를 한다.
-  //connection.query('SELECT * FROM users Where username=?',[username], async(err, result)=>{ 
-  pool.query('SELECT * FROM users Where username=?',[username], async(err, result)=>{ 
+  connection.query('SELECT * FROM users Where username=?',[username], async(err, result)=>{ 
+  //pool.query('SELECT * FROM users Where username=?',[username], async(err, result)=>{ 
       if(err||result.length===0){//일치하는 자료가 없는경우
         return res.status(401).json({  //에러띄우기
           error: '아이디 또는 비밀번호가 틀렸습니다.' 
@@ -475,8 +475,8 @@ app.post('/login', (req, res)=>{
 
 //1. 데이터 조회(GET) ginipet_users 테이블 
 app.get('/ginipet', (req, res)=>{
-  //connection.query('SELECT * FROM ginipet_users', (err, results)=>{
-  pool.query('SELECT * FROM ginipet_users', (err, results)=>{
+  connection.query('SELECT * FROM ginipet_users', (err, results)=>{
+  //pool.query('SELECT * FROM ginipet_users', (err, results)=>{
     if(err){
       console.log('쿼리 오류 : ', err);
       res.status(500).json({err:'DB 쿼리 오류'});
@@ -491,8 +491,8 @@ app.post('/check-username', (req, res)=>{
   const {username} = req.body;
 
   const sql = 'SELECT * FROM ginipet_users WHERE username=?';
-  //connection.query(sql, [username],(err, result)=>{
-  pool.query(sql, [username],(err, result)=>{
+  connection.query(sql, [username],(err, result)=>{
+  //pool.query(sql, [username],(err, result)=>{
     if(err) return res.status(500).send(err);
     res.json({exists:result.length>0});
   });
@@ -515,8 +515,8 @@ app.post('/ginipet_register',  async(req, res)=>{
     `;
 
     //입력이 끝나면 메세지 띄우기
-    //connection.query(sql, [username, hash, email, tel], err=>{
-    pool.query(sql, [username, hash, email, tel], err=>{
+    connection.query(sql, [username, hash, email, tel], err=>{
+    //pool.query(sql, [username, hash, email, tel], err=>{
       if(err) return res.status(500).send(err);
       res.json({message:'회원가입 성공'});
     });
@@ -534,8 +534,8 @@ app.post('/ginipet_login', (req, res)=>{
 
   const sql = 'SELECT * FROM ginipet_users WHERE username=?';
   //사용자 아이디를 조회하여 가입한 아이디가 없다면 메세지 띄우기
-  //connection.query(sql, [username], async(err, result)=>{
-  pool.query(sql, [username], async(err, result)=>{
+  connection.query(sql, [username], async(err, result)=>{
+  //pool.query(sql, [username], async(err, result)=>{
     if(err||result.length==0){
       return res.status(401).json({
         error:'아이디 또는 비밀번호가 틀립니다.'
@@ -559,3 +559,4 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
