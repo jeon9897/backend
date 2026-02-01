@@ -9,12 +9,12 @@ const bcrypt = require('bcrypt'); //해시 암호화를 위함
 const jwt = require('jsonwebtoken'); //토큰 생성을 위함
 const SECRET_KEY = 'test'; //JWT 서명 시 사용할 비밀 키
 
-app.use(express.json()); //JSON 본문 파싱 미들웨어
-app.use(express.urlencoded({ extended: true }));
-
 //CORS preflight 전역 허용
 app.use(cors());
 app.options('*', cors());
+
+app.use(express.json()); //JSON 본문 파싱 미들웨어
+app.use(express.urlencoded({ extended: true }));
 
 //3. mysql db정보 설정하기
 const mysql = require('mysql');
@@ -566,6 +566,7 @@ app.post('/ginipet_login', (req, res)=>{
 
   });
 });
+
 
 
 
